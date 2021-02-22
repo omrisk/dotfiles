@@ -51,3 +51,7 @@ When setting up a new Mac, you may want to install some common [Homebrew](https:
 ```
 
 Some of the functionality of these dotfiles depends on formulae installed by `brew.sh`. If you don’t plan to run `brew.sh`, you should look carefully through the script and manually install any particularly important ones. A good example is Bash/Git completion: the dotfiles use a special version from Homebrew.
+
+# Intellij IDE settings
+Since Intellij has it's own settings backup and sync methods, I've backed them up to [this private repository](https://github.com/omrisk/intellij-settings).
+Linking this here for self reference.
