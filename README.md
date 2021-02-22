@@ -1,4 +1,4 @@
-# dotfiles
+# Omrisk's dotfiles
 Just my Dot files
 
 ## Credit 
