@@ -13,7 +13,6 @@ brew "git"
 brew "git-secrets"
 brew gh
 
-
 # JVMs
 brew "sbt"
 brew "scala"
@@ -48,6 +47,8 @@ brew "node"
 brew "redis"
 
 # Bash quality of life
+brew "bash"
+brew "bash-completion2"
 brew "bat" 									# cat with syntax highlighting and git diffs
 brew "fzf"									# a fuzzy finder for the terminal
 brew "htop"									# the best system task manager
@@ -55,9 +56,12 @@ brew "jq"									# json parser for the terminal
 brew "shellcheck"							# testing shell scripts
 brew "telnet"								# might be usefull sometime
 brew "tmux"									# terminal multiplexer
-brew "wget"									# when curl is not enough
+brew "wget  --with-iri"						# when curl is not enough
 brew "the_silver_searcher"					# the best text search tool
 brew "tree"
+brew "grep"
+brew "open-ssh"
+brew "vim --with-override-system-vi"
 
 # Misc. Applications
 cask "google-chrome"
