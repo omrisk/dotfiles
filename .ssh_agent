@@ -1,19 +1,22 @@
-export SSH_ENV='$HOME/.ssh/environment';
+SSH_ENV="$HOME/.ssh/environment"
 
-if [ -n "$SSH_AGENT_PID" ]; then
+function start_agent {
+     echo "Initialising new SSH agent..."
+     /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+     echo succeeded
+     chmod 600 "${SSH_ENV}"
+     . "${SSH_ENV}" > /dev/null
+     /usr/bin/ssh-add;
+}
 
-    ps -ef | grep $SSH_AGENT_PID | grep ssh-agent > /dev/null
-    if [ "$status" = "0" ]; then
-        test_identities
-    fi;
+# Source SSH settings, if applicable
+
+if [ -f "${SSH_ENV}" ]; then
+     . "${SSH_ENV}" > /dev/null
+     #ps ${SSH_AGENT_PID} doesn't work under cywgin
+     ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
+         start_agent;
+     }
 else
-    if [ -f "$SSH_ENV" ]; then
-        . $SSH_ENV > /dev/null
-    fi;
-    ps -ef | grep $SSH_AGENT_PID | grep -v grep | grep ssh-agent > /dev/null
-    if [ $status -eq 0 ]; then
-        test_identities
-    else
-        start_agent
-    fi;
-fi;
+     start_agent;
+fi
