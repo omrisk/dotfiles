@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+echo "in .chef_functions"
+
+# List chef provisioned machines
+function knl() {
+    knife node list | grep -E $argv
+}
+
+# List chef provisioned machines with fzf
+function knlg() {
+    knife node list | grep $argv[1] | fzf | pbcopy
+}
+
+# List chef provisioned machines with fzf and ssh into one
+function sknl() {
+    ssh $(knife node list | grep $argv[1] | fzf | read)
+}
+
+# List chef provisioned machines with fzf and start tmux session on one
+function tknl(){
+    ssh $(knife node list | grep $argv[1] | fzf | read) -t "tmux attach || tmux new"
+}
