@@ -12,8 +12,10 @@ brew "gh"
 
 # JVMs
 brew "maven"
-brew "snappy"
+brew "coursier/formulas/coursier"
 
+# File formats
+brew "snappy"
 brew "avro-tools"							# a set of tools to work with avro files
 brew "parquet-tools"                        # Parquet reader utils
 
