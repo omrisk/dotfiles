@@ -15,7 +15,8 @@
 	# Pull in remote changes for the current repository and all its submodules.
 	p = pull --recurse-submodules
 
-	pu = !"git branch | grep \* | cut -d ' ' -f2 | xargs git push origin"
+	pu =  !"git branch | grep '*' | cut -d ' ' -f2 | xargs git push origin"
+
 	# Clone a repository including all submodules.
 	c = clone --recursive
 
