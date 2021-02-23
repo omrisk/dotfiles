@@ -1,18 +1,19 @@
-export SSH_ENV $HOME/.ssh/environment
+export SSH_ENV='$HOME/.ssh/environment';
 
-if [ -n "$SSH_AGENT_PID" ]
+if [ -n "$SSH_AGENT_PID" ]; then
+
     ps -ef | grep $SSH_AGENT_PID | grep ssh-agent > /dev/null
-    if [ $status -eq 0 ]
+    if [ "$status" = "0" ]; then
         test_identities
-    end
+    fi;
 else
-    if [ -f $SSH_ENV ]
+    if [ -f "$SSH_ENV" ]; then
         . $SSH_ENV > /dev/null
-    end
+    fi;
     ps -ef | grep $SSH_AGENT_PID | grep -v grep | grep ssh-agent > /dev/null
-    if [ $status -eq 0 ]
+    if [ $status -eq 0 ]; then
         test_identities
     else
         start_agent
-    end
-end
+    fi;
+fi;
