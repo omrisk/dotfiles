@@ -15,9 +15,6 @@
 	# Pull in remote changes for the current repository and all its submodules.
 	p = pull --recurse-submodules
 
-	# Push this branch to origin
-	pu =  !"git branch | grep '*' | cut -d ' ' -f2 | xargs git push origin"
-	
 	# force push this branch to origin
 	pu =  !"git branch | grep '*' | cut -d ' ' -f2 | xargs git push origin --force-with-lease"
 
