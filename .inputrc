@@ -1,5 +1,7 @@
-# Make Tab autocomplete regardless of filename case
+# Make Tab autocomplete regardless of filename case and toggle between options
+"\t": menu-complete
 set completion-ignore-case on
+set menu-complete-display-prefix on
 
 # List all matches in case multiple possible completions are possible
 set show-all-if-ambiguous on
