@@ -19,6 +19,24 @@ To update, `cd` into your local `dotfiles` repository and then:
 source bootstrap.sh
 ```
 
+Notice that the [.gitconfig](./.gitconfig) loads [.gitconfig_common](.gitconfig_common) that sets all aliases and git prefrences.
+It then loads [.gitconfig_personal](.gitconfig_personal) so set my user and email.
+The `includeif` allows to switch to my work user when I'm in a work directory.
+So my `.gitconfig_personal` looks something like this:
+```
+[user]
+	name = MY_USERNAME
+	email = MY_PERSONAL_EMAIL
+
+```
+And my `.gitconfig_work` looks something like this:
+```
+[user]
+	name = MY_WORK_USERNAME
+	email = MY_WORK_EMAIL
+
+```
+
 ### Specify the `$PATH`
 
 If `~/.path` exists, it will be sourced along with the other files, before any feature testing (such as [detecting which version of `ls` is being used](https://github.com/mathiasbynens/dotfiles/blob/aff769fd75225d8f2e481185a71d5e05b76002dc/.aliases#L21-L26)) takes place.
