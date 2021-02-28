@@ -77,3 +77,4 @@ cask "rectangle"                            # window snapping tool
 cask "alfred"								# control your mac from your keyboard
 mas "Slack", id: 803453959
 mas "WhatsApp Desktop", id: 1147396723 		# if you HAVE to talk to someone outside of work
+mas "Todoist", id: 585829637
