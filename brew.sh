@@ -14,8 +14,8 @@ commit_brewfile(){
   # Ensure we don't commit stuff we don't want
   git stash
 
-  # Backup and save the updated BREW packages
-  brew bundle dump --file=./.Brewfile
+  # Backup and save the updated BREW packages, overwrite the repositories '.Brewfile'
+  brew bundle dump --file=./.Brewfile --force
 
   git commit --include .Brewfile -m "Updating brew packages"
 
