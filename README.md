@@ -1,5 +1,11 @@
 # Omrisk's dotfiles
-Just my Dot files
+Just my Dot files, once upon a time a `Big Sur` update almost forced me to format my mac.
+
+I vowed then and there that I would be able to bounce back quickly from my machine being run over, dropped or kidnapped.
+
+This is that vow, backed up to git :).
+
+Feel free to copy, let me know if you have any cool suggestions.
 
 ## Credit 
 [Mathias’s Bynes amazing dotfile repo](https://github.com/mathiasbynens/dotfiles)
