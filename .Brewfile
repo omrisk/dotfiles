@@ -1,80 +1,103 @@
-# Core homebrew 
+tap "coursier/formulas"
 tap "homebrew/bundle"
 tap "homebrew/cask"
 tap "homebrew/core"
-brew "brew-cask-completion"
-brew "coreutils"
-
-# git and github
-brew "git"
-brew "git-secrets"
-brew "gh"
-
-# JVMs
-brew "maven"
-brew "coursier/formulas/coursier"
-
-# File formats
-brew "snappy"
-brew "avro-tools"							# a set of tools to work with avro files
-brew "parquet-tools"                        # Parquet reader utils
-
-# IDEs
-cask "jetbrains-toolbox"                    # Try doing JVM without it - may burn your mac alive
-cask "visual-studio-code"					# The suprising Text editor of the 2020s
-
-# Docker and k8s
-brew "helm"
-brew "terraform"
-brew "minikube"
-brew "terragrunt"
-brew "kubectl"
+brew "libevent"
+brew "openjdk"
+brew "avro-tools"
+brew "python@3.9"
 brew "awscli"
-cask "docker"
-brew "mysql" 
-brew "gimme-aws-creds"
-
-#Python 
-brew "pyenv"
-brew "libev"                               # For installing local cassandra drivers in python
-
-# Node
-brew "node"
-
-# Redis
-brew "redis"
-
-# Bash quality of life
 brew "bash"
 brew "bash-completion@2"
-brew "findutils"                            # Install GNU `find`, `locate`, `updatedb`, and `xargs`, `g`-prefixed.
-brew "bat" 									# cat with syntax highlighting and git diffs
-brew "fzf"									# a fuzzy finder for the terminal
-brew "htop"									# the best system task manager
-brew "jq"									# json parser for the terminal
-brew "shellcheck"							# testing shell scripts
-brew "telnet"								# might be usefull sometime
-brew "tmux"									# terminal multiplexer
-brew "wget"         						# when curl is not enough
-brew "the_silver_searcher"					# the best text search tool
-brew "tree"
+brew "bat"
+brew "bazel"
+brew "bpytop"
+brew "brew-cask-completion"
+brew "glib"
+brew "cmake"
+brew "coreutils"
+brew "dive"
+brew "libev"
+brew "snappy"
+brew "ffmpeg"
+brew "fftw"
+brew "findutils"
+brew "fish"
+brew "fzf"
+brew "gh"
+brew "gimme-aws-creds"
+brew "git"
+brew "git-secrets"
+brew "gnu-sed"
+brew "gnuplot"
 brew "grep"
+brew "helm"
+brew "htop"
+brew "hub"
+brew "libheif"
+brew "imagemagick"
+brew "jq"
+brew "kubernetes-cli", link: false
+brew "make"
+brew "mas"
+brew "maven"
+brew "minikube"
+brew "mysql"
+brew "n"
+brew "ncdu"
+brew "node"
+brew "sundials"
+brew "octave"
 brew "openssh"
+brew "parquet-tools"
+brew "pyenv"
+brew "python@3.8"
+brew "rbenv"
+brew "reattach-to-user-namespace"
+brew "redis"
+brew "ruby"
+brew "sbt"
+brew "scala"
+brew "shellcheck"
+brew "sphinx-doc"
+brew "telnet"
+brew "terraform"
+brew "terragrunt"
+brew "the_silver_searcher"
+brew "thefuck"
+brew "tmux"
+brew "tree"
 brew "vim"
-brew "gnu-sed"                              # Install GNU `sed`, overwriting the built-in `sed`.
-
-
-# Misc. Applications
-cask "google-chrome"
-cask "iTerm2"
-cask "spotify"
+brew "wget"
+brew "z"
+brew "zlib"
+brew "coursier/formulas/coursier"
+cask "adoptopenjdk11"
+cask "alfred"
+cask "anaconda"
 cask "authy"
 cask "bitwarden"
-
-# mac packages
-brew "mas"
-cask "rectangle"                            # window snapping tool
-cask "alfred"								# control your mac from your keyboard
+cask "blackhole"
+cask "clipy"
+cask "docker"
+cask "dropbox"
+cask "eclipse-java"
+cask "google-backup-and-sync"
+cask "google-chrome"
+cask "iterm2"
+cask "java"
+cask "jetbrains-toolbox"
+cask "karabiner-elements"
+cask "postman"
+cask "rectangle"
+cask "spotify"
+cask "steam"
+cask "vagrant"
+cask "virtualbox"
+cask "visual-studio-code"
+mas "GIPHY CAPTURE", id: 668208984
+mas "LastPass", id: 926036361
+mas "Numbers", id: 409203825
 mas "Slack", id: 803453959
-mas "WhatsApp Desktop", id: 1147396723 		# if you HAVE to talk to someone outside of work
 mas "Todoist", id: 585829637
+mas "WhatsApp", id: 1147396723
