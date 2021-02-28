@@ -72,6 +72,7 @@ while getopts ":buh" opt; do
       ;;
     *)
       echo "Default running the update/upgrade (like you passed '-u' to this script)"
+      brew_update
       exit 0
       ;;
   esac
