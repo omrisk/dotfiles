@@ -21,6 +21,9 @@
 	# force push this branch to origin
 	puf =  !"git branch | grep '*' | cut -d ' ' -f2 | xargs git push origin --force-with-lease"
 
+	# force push this branch to origin forcefully
+	puff =  !"git branch | grep '*' | cut -d ' ' -f2 | xargs git push origin --force"
+
 	# Clone a repository including all submodules.
 	c = clone --recursive
 
