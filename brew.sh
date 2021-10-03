@@ -13,16 +13,19 @@ BREW_PREFIX=$(brew --prefix)
 commit_brewfile(){
   # Ensure we don't commit stuff we don't want
   git stash
-
+  
+  DATE=$(date "+%Y-%m-%d-%H-%M")
+  git checkout -b brew-file-update-$DATE
   # Backup and save the updated BREW packages, overwrite the repositories '.Brewfile'
   brew bundle dump --file=./.Brewfile --force
 
-  git commit --include .Brewfile -m "Updating brew packages"
+  git commit --include .Brewfile -m "feat(brew): Updating brew packages"
 
   # Push the changes
   gh pr create --title "Brewfile update" -b "This was opened by using the 'update-brew.sh' script."
 
   # Restore the localbranch to the pre-update state
+  git checkout -
   git stash pop
 }
 
