@@ -33,6 +33,9 @@ done;
 eval "$(jenv init -)"
 jenv enable-plugin export
 
+# SBT and Scala env-vars
+export SBT_OPTS="-Xmx4G $SBT_OPS";
+
 # Add tab completion for many Bash commands
 if which brew &> /dev/null && [ -r "$(brew --prefix)/etc/profile.d/bash_completion.sh" ]; then
 	# Ensure existing Homebrew v1 completions continue to work
