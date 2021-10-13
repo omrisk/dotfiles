@@ -34,7 +34,7 @@ eval "$(jenv init -)"
 jenv enable-plugin export
 
 # SBT and Scala env-vars
-export SBT_OPTS="-Xmx4G $SBT_OPS";
+export SBT_OPTS="-Xmx4G -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=2G -Xss2M  -Duser.timezone=GMT";
 
 # Add tab completion for many Bash commands
 if which brew &> /dev/null && [ -r "$(brew --prefix)/etc/profile.d/bash_completion.sh" ]; then
