@@ -9,11 +9,10 @@ export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 # Save Homebrew’s installed location.
 BREW_PREFIX=$(brew --prefix)
 
-
-commit_brewfile(){
+commit_brewfile() {
   # Ensure we don't commit stuff we don't want
   git stash
-  
+
   DATE=$(date "+%Y-%m-%d-%H-%M")
   git checkout -b brew-file-update-$DATE
   # Backup and save the updated BREW packages, overwrite the repositories '.Brewfile'
@@ -29,7 +28,7 @@ commit_brewfile(){
   git stash pop
 }
 
-brew_update(){
+brew_update() {
   # Make sure we’re using the latest Homebrew.
   brew update
 
@@ -43,40 +42,48 @@ brew_update(){
 
   ln -s "${BREW_PREFIX}/bin/gsha256sum" "${BREW_PREFIX}/bin/sha256sum"
 
-
   # Switch to using brew-installed bash as default shell
   if ! fgrep -q "${BREW_PREFIX}/bin/bash" /etc/shells; then
-    echo "${BREW_PREFIX}/bin/bash" | sudo tee -a /etc/shells;
-    chsh -s "${BREW_PREFIX}/bin/bash";
-  fi;
+    echo "${BREW_PREFIX}/bin/bash" | sudo tee -a /etc/shells
+    chsh -s "${BREW_PREFIX}/bin/bash"
+  fi
 
   # Remove outdated versions from the cellar.
   brew cleanup
 }
 
+print_help() {
+  echo "Help blurb!"
+  echo "-b - Create a .Brewfile based off the locally installed brew formulae and open a github pull request to commit it"
+  echo "-u - Update brew and install any packages in the global .Brewfile"
+  echo "-h - Print this help blurb"
+}
+
+if [ "$#" -eq 0 ]; then
+    echo "No parameters passed, see this helpful help blurb:"
+    brew_update
+fi
 
 while getopts ":buh" opt; do
   case $opt in
-    b)
-      echo "Backing up brew accoriding to output from 'brew bundle dump'"
-      commit_brewfile
-      exit 0   
-      ;;
-    u)
-      echo "Installing and updating brew formulae"
-      brew_update
-      exit 0   
-      ;;
-    h)
-      echo "Help blurb!"
-      echo "-b - Create a .Brewfile based off the locally installed brew formulae and open a github pull request to commit it"
-      echo "-u - Update brew and install any packages in the global .Brewfile"
-      exit 0
-      ;;
-    *)
-      echo "Default running the update/upgrade (like you passed '-u' to this script)"
-      brew_update
-      exit 0
-      ;;
+  b)
+    echo "Backing up brew accoriding to output from 'brew bundle dump'"
+    commit_brewfile
+    exit 0
+    ;;
+  u)
+    echo "Installing and updating brew formulae"
+    brew_update
+    exit 0
+    ;;
+  h)
+    print_help
+    exit 0
+    ;;
+  *)
+    echo "invalid flag!"
+    print_help
+    exit 0
+    ;;
   esac
 done
