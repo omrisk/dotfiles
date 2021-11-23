@@ -88,7 +88,6 @@ brew "openjdk@11"
 brew "openjdk@17"
 cask "alfred"
 cask "foxitreader"
-cask "anaconda"
 cask "authy"
 cask "bitwarden"
 cask "docker"
@@ -101,6 +100,5 @@ cask "rectangle"
 cask "spotify"
 cask "vagrant"
 cask "visual-studio-code"
-mas "GIPHY CAPTURE", id: 668208984
 mas "Todoist", id: 585829637
 mas "WhatsApp", id: 1147396723
