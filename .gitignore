@@ -1,5 +1,9 @@
 # Compiled Python files
 *.pyc
+*.sw[po]
+__pycache__/
+.python-version
+.pytest_cache/
 
 # Folder view configuration files
 .DS_Store
