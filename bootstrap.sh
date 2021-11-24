@@ -34,7 +34,11 @@ else
 	fi
 fi
 
-check_and_install_homebrew
+read -p "Do you want to update homebrew packages? (y/n)" -n 1
+echo ""
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+	check_and_install_homebrew
+fi
 
 unset do_it
 unset check_and_install_homebrew

@@ -198,3 +198,6 @@
 [init]
 
 	defaultBranch = main
+
+[user]
+	email = 23058747+omrisk@users.noreply.github.com
