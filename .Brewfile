@@ -1,7 +1,6 @@
 tap "homebrew/bundle"
 tap "homebrew/cask"
 tap "homebrew/core"
-tap "peak/s5cmd", "https://github.com/peak/s5cmd"
 brew "openssl@1.1"
 brew "libevent"
 brew "openjdk"
