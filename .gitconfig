@@ -2,5 +2,5 @@
 	path = .gitconfig_common
 	path = .gitconfig_personal
 
-[includeIf "gitdir:~/dev"]
+[includeIf "gitdir:~/dev/"]
 	path = .gitconfig_work
