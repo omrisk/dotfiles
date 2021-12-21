@@ -68,3 +68,6 @@ complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes Syste
 
 # Load z from brew installation
 source $(brew --prefix)/etc/profile.d/z.sh
+
+# Load pyenv-virtualenv automatically
+eval "$(pyenv virtualenv-init -)"
