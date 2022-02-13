@@ -69,7 +69,7 @@
 	ft = "!f() { git describe --always --contains $1; }; f"
 
 	# Pretty logs!
- 	adog = log --all --decorate --oneline --graph
+	adog = log --all --decorate --oneline --graph
 
 	# Find commits by source code
 	fc = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"

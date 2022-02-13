@@ -3,7 +3,7 @@
 # Install command-line tools using Homebrew.
 
 # Set Homebrew params
-export HOMEBREW_BREWFILE="~/.brewfile"
+export HOMEBREW_BREWFILE="$HOME/.brewfile"
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 
 # Save Homebrew’s installed location.
@@ -14,7 +14,7 @@ function commit_brewfile() {
   git stash
 
   DATE=$(date "+%Y-%m-%d-%H-%M")
-  git checkout -b brew-file-update-$DATE
+  git checkout -b brew-file-update-"$DATE"
   # Backup and save the updated BREW packages, overwrite the repositories '.Brewfile'
   brew bundle dump --file=./.Brewfile --force
 
@@ -43,7 +43,7 @@ function brew_update() {
   ln -s "${BREW_PREFIX}/bin/gsha256sum" "${BREW_PREFIX}/bin/sha256sum"
 
   # Switch to using brew-installed bash as default shell
-  if ! fgrep -q "${BREW_PREFIX}/bin/bash" /etc/shells; then
+  if ! grep -F -q "${BREW_PREFIX}/bin/bash" /etc/shells; then
     echo "${BREW_PREFIX}/bin/bash" | sudo tee -a /etc/shells
     chsh -s "${BREW_PREFIX}/bin/bash"
   fi
@@ -91,6 +91,6 @@ function main() {
 
 }
 
-if [[ "${1}" != "--source-only" ]]; then
+if [[ ${1} != "--source-only" ]]; then
   main "${@}"
 fi
