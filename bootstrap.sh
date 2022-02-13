@@ -1,21 +1,25 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 cd "$(dirname "$0")" || exit
 
-function do_it() {
-
-  if which -s stow; then
+function boot() {
+  if ! which -s stow &>/dev/null; then
     check_and_install_homebrew
   fi
+
+  # Ensure zsh is installed and is default shell
+  if [[ $SHELL != *"zsh"* ]]; then
+    source zsh.sh
+  fi
+
   # shellcheck disable=SC2035 # Stow doesn't know how to resolve -- when globing
   stow --restow */
-  source "$HOME"/.bash_profile
 }
 
 function check_and_install_homebrew() {
-  if which -s brew; then
+  if which -s brew &>/dev/null; then
     # Install Homebrew
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    eval "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   fi
 
   # Load functions from the brew script
@@ -24,20 +28,14 @@ function check_and_install_homebrew() {
 }
 
 if [[ $1 == "--force" ]] || [[ $1 == "-f" ]]; then
-  do_it
+  boot
 else
-  read -pr "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1
+  read -r -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1
   echo ""
   if [[ $REPLY =~ ^[Yy]$ ]]; then
-    do_it
+    boot
   fi
 fi
 
-read -pr "Do you want to update homebrew packages? (y/n)" -n 1
-echo ""
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-  check_and_install_homebrew
-fi
-
-unset do_it
+unset boot
 unset check_and_install_homebrew
