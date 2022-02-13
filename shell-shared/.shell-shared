@@ -16,22 +16,10 @@ unset file
 
 #Jenv Setup
 eval "$(jenv init -)"
-jenv enable-plugin export
+eval "$(jenv enable-plugin export)"
 
 # SBT and Scala env-vars
 export SBT_OPTS="-Xmx4G -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=2G -Xss2M  -Duser.timezone=GMT"
-
-# Enable tab completion for `g` by marking it as an alias for `git`
-if type _git &>/dev/null; then
-  complete -o default -o nospace -F _git g
-fi
-
-# Add tab completion for `defaults read|write NSGlobalDomain`
-# You could just use `-g` instead, but I like being explicit
-complete -W "NSGlobalDomain" defaults
-
-# Add `killall` tab completion for common apps
-complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal Twitter" killall
 
 # Load z from brew installation
 source "$BREW_PREFIX"/etc/profile.d/z.sh
