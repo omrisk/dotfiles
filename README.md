@@ -12,8 +12,10 @@ Feel free to copy, let me know if you have any cool suggestions.
 
 ### Using Git and the bootstrap script
 
-You can clone the repository wherever you want. (I like to keep it in `~/Projects/dotfiles`, with `~/dotfiles` as a symlink.) 
-The bootstrapper script will pull in the latest version and copy the files to your home folder.
+You can clone the repository wherever you want. The bootstrap script will create symlinks to your home directory using [stow](https://www.gnu.org/software/stow/).
+This allows for easier experimentation and testing across systems.
+
+The bootstrap script will pull in the latest version and link the files to your home folder.
 
 ```bash
 git clone https://github.com/omrisk/dotfiles.git && cd dotfiles && source bootstrap.sh
@@ -24,6 +26,8 @@ To update, `cd` into your local `dotfiles` repository and then:
 ```bash
 source bootstrap.sh
 ```
+
+### Git configurations
 
 Notice that the [.gitconfig](./.gitconfig) loads [.gitconfig_common](.gitconfig_common) that sets all aliases and git prefrences.
 It then loads [.gitconfig_personal](.gitconfig_personal) so set my user and email.

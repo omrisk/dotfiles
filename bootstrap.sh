@@ -3,12 +3,12 @@
 cd "$(dirname "${BASH_SOURCE}")"
 
 function do_it() {
-	rsync --exclude ".git/" \
-		--exclude ".DS_Store" \
-		--exclude "bootstrap.sh" \
-		--exclude "README.md" \
-		--exclude "LICENSE-MIT.txt" \
-		-avh --no-perms . ~
+
+	which -s stow
+	if [[ $? != 0 ]]; then
+		check_and_install_homebrew
+	fi
+	stow --restow */
 	source ~/.bash_profile
 }
 
