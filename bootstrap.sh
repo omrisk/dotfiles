@@ -7,13 +7,15 @@ function boot() {
     check_and_install_homebrew
   fi
 
-  # Ensure zsh is installed and is default shell
-  if [[ $SHELL != *"zsh"* ]]; then
-    source zsh.sh
-  fi
-
   # shellcheck disable=SC2035 # Stow doesn't know how to resolve -- when globing
-  stow --restow */
+  stow --restow */ -t "$HOME"
+
+  # Switch to using brew-installed bash as default shell
+  # if ! grep -F -q "${BREW_PREFIX}/bin/bash" /etc/shells; then
+  #   echo "${BREW_PREFIX}/bin/bash" | sudo tee -a /etc/shells
+  #   # Uncomment the next line to use bash
+  #   # chsh -s "${BREW_PREFIX}/bin/bash"
+  # fi
 }
 
 function check_and_install_homebrew() {
@@ -23,7 +25,7 @@ function check_and_install_homebrew() {
   fi
 
   # Load functions from the brew script
-  source ./brew.sh --source-only
+  source brew.sh --source-only
   brew_update
 }
 

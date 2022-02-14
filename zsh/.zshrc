@@ -90,12 +90,14 @@ alias ohmyzsh="nvim ~/.oh-my-zsh"
 # fi
 
 # default settings for less. You may also want to disable line wrapping with -S
-LESS='-MRi#8j.5'
-#      |||| `- center on search matches
-#      |||`--- scroll horizontally 8 columns at a time
-#      ||`---- case-insensitive search unless pattern contains uppercase
-#      |`----- parse color codes
-#      `------ show more information in prompt
+LESS='-XMRi#8j.5'
+#      ||||||
+#      ||||| `- center on search matches
+#      ||||`--- scroll horizontally 8 columns at a time
+#      |||`---- case-insensitive search unless pattern contains uppercase
+#      ||`----- parse color codes
+#      |`------ show more information in prompt
+#       `------ don't wipe the less output on exit
 
 # shell history is useful, let's have more of it
 HISTFILESIZE=1000000

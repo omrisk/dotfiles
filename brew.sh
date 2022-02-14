@@ -18,7 +18,8 @@ function commit_brewfile() {
   # Backup and save the updated BREW packages, overwrite the repositories '.Brewfile'
   brew bundle dump --file=./.Brewfile --force
 
-  git commit --include .Brewfile -m "feat(brew): Updating brew packages for $DATE"
+  git add .Brewfile
+  git commit --include .Brewfile -m "chore(brew): Updating brew packages for $DATE"
 
   # Push the changes
   gh pr create --title "Brewfile update" -b "This was opened by using the 'update-brew.sh' script."
@@ -39,14 +40,7 @@ function brew_update() {
 
   # Install GNU core utilities (those that come with macOS are outdated).
   # Don’t forget to add `$(brew --prefix coreutils)/libexec/gnubin` to `$PATH`.
-
   ln -s "${BREW_PREFIX}/bin/gsha256sum" "${BREW_PREFIX}/bin/sha256sum"
-
-  # Switch to using brew-installed bash as default shell
-  if ! grep -F -q "${BREW_PREFIX}/bin/bash" /etc/shells; then
-    echo "${BREW_PREFIX}/bin/bash" | sudo tee -a /etc/shells
-    chsh -s "${BREW_PREFIX}/bin/bash"
-  fi
 
   # Remove outdated versions from the cellar.
   brew cleanup
