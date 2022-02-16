@@ -53,6 +53,8 @@ plugins=(
   tmux
   vi-mode
   vscode
+  zsh-autosuggestions
+  zsh-syntax-highlighting
   zsh-z
 )
 
