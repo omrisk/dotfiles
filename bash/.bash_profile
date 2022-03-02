@@ -1,5 +1,3 @@
-#!/bin/bash
-
 SHELL_SHARED="$HOME/.shell-shared"
 
 [ -r "$SHELL_SHARED" ] && source "$SHELL_SHARED"

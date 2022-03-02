@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 # shellcheck disable=SC2034 # Ignore unused color assignments
 
 # Shell prompt based on the Solarized Dark theme.

@@ -71,7 +71,7 @@ source "$ZSH"/oh-my-zsh.sh
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
 else
-  export EDITOR='mvim'
+  export EDITOR='nvim'
 fi
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
@@ -92,14 +92,15 @@ alias ohmyzsh="nvim ~/.oh-my-zsh"
 # fi
 
 # default settings for less. You may also want to disable line wrapping with -S
-LESS='-XMRi#8j.5'
-#      ||||||
-#      ||||| `- center on search matches
-#      ||||`--- scroll horizontally 8 columns at a time
-#      |||`---- case-insensitive search unless pattern contains uppercase
-#      ||`----- parse color codes
-#      |`------ show more information in prompt
-#       `------ don't wipe the less output on exit
+LESS='-NXMRi#8j.5'
+#      |||||||
+#      |||||| `- center on search matches
+#      |||||`--- scroll horizontally 8 columns at a time
+#      ||||`---- case-insensitive search unless pattern contains uppercase
+#      |||`----- parse color codes
+#      ||`------ show more information in prompt
+#      |`------ don't wipe the less output on exit
+#      `------- show line numbers
 
 # shell history is useful, let's have more of it
 HISTFILESIZE=1000000
