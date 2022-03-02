@@ -1,5 +1,6 @@
 
 " Use the Solarized Dark theme
+syntax enable
 set background=dark
 colorscheme solarized
 " Use 14pt Monaco
