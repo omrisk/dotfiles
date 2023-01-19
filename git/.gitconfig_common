@@ -171,7 +171,8 @@
 	default = simple
 	# Make `git push` push relevant annotated tags when pushing branches out.
 	followTags = true
-
+	# Avoid setting upstream manually
+	autoSetupRemote = true
 
 [pull]
 
