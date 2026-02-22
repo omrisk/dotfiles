@@ -7,7 +7,12 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 SHELL_SHARED="$HOME/.shell-shared"
-[ -f "$SHELL_SHARED" ] && source "$SHELL_SHARED" > /dev/null
+# Suppress verbose output during non-interactive initialization
+if [[ $- == *i* ]]; then
+  [ -f "$SHELL_SHARED" ] && source "$SHELL_SHARED"
+else
+  [ -f "$SHELL_SHARED" ] && source "$SHELL_SHARED" > /dev/null 2>&1
+fi
 
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -122,4 +127,16 @@ bindkey -M menuselect '^?' backward-delete-char
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-source /Users/omri_keefe/.forterrc
+# Auto-start tmux in modern terminals (skip if already in tmux, SSH, or VS Code terminal)
+if command -v tmux &> /dev/null && [ -z "$TMUX" ] && [ -z "$SSH_CONNECTION" ] && [ -z "$VSCODE_INJECTION" ]; then
+  # Check if we have a proper terminal before starting tmux
+  if [ -t 0 ] && [ -t 1 ]; then
+    # Try to attach to existing session, or create new one
+    tmux attach -t default 2>/dev/null || tmux new -s default
+  fi
+fi
+
+# Source work-specific config, suppress verbose output during startup
+if [ -f /Users/omri_keefe/.forterrc ]; then
+  source /Users/omri_keefe/.forterrc 2>/dev/null
+fi

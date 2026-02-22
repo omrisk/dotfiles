@@ -6,15 +6,20 @@ BREW_PREFIX=$(brew --prefix)
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.extra can be used for other settings you don’t want to commit.
 for file in ~/.{path,bash_prompt,exports,aliases,functions,ssh_agent,chef_functions,extras}; do
-  [ -r "$file" ] && source "$file"
+  [ -r "$file" ] && source "$file" 2>/dev/null
 done
 
 # Add handeling for tmux.conf file
 unset file
 
 #Jenv Setup
-eval "$(jenv init -)"
-eval "$(jenv enable-plugin export)"
+if command -v jenv &> /dev/null; then
+  eval "$(jenv init - 2>/dev/null)"
+  # Only enable export plugin if not already enabled
+  if ! jenv plugins 2>/dev/null | grep -q "^export$"; then
+    jenv enable-plugin export &>/dev/null || true
+  fi
+fi
 
 # SBT and Scala env-vars
 export SBT_OPTS="-Xmx4G -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=2G -Xss2M  -Duser.timezone=GMT"
@@ -23,5 +28,7 @@ export SBT_OPTS="-Xmx4G -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -X
 source "$BREW_PREFIX"/etc/profile.d/z.sh
 
 # Load pyenv-virtualenv automatically
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+# Note: pyenv init is already done in .forterrc, only do virtualenv-init here
+if command -v pyenv &> /dev/null; then
+  eval "$(pyenv virtualenv-init - 2>/dev/null)"
+fi
