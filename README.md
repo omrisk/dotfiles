@@ -63,6 +63,24 @@ Here’s an example `~/.path` file that adds `/usr/local/bin` to the `$PATH`:
 export PATH="/usr/local/bin:$PATH"
 ```
 
+## Terminal Setup (New!)
+
+For an optimized terminal experience with **Ghostty + tmux + zsh**, see the comprehensive guide:
+
+**→ [Terminal Setup Guide](TERMINAL_SETUP.md)**
+
+Features:
+- Ultra-fast Ghostty terminal with native macOS integration
+- tmux with 50k line scrollback and session persistence
+- Automatic tmux startup with smart conditions
+- Optimized for agent development and long-running processes
+
+Quick start:
+```bash
+brew install --cask ghostty
+stow --restow ghostty tmux zsh shell-shared bash -t "$HOME"
+```
+
 ## Sensible macOS defaults
 
 When setting up a new Mac, you may want to set some sensible macOS defaults:
