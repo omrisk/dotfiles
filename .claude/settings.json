@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(stow:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git add:*)",
+      "Bash(git mv:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git restore:*)",
+      "Bash(git clone:*)",
+      "Bash(gh repo:*)",
+      "Bash(gh pr:*)",
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(grep:*)",
+      "Bash(wc:*)",
+      "Bash(test:*)",
+      "Bash(bash ./test.sh:*)",
+      "Bash(zsh -i -c *)",
+      "Bash(time zsh *)",
+      "Bash(ghostty +list-themes:*)"
+    ]
+  }
+}
