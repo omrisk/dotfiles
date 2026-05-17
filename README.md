@@ -1,148 +1,106 @@
-# Omrisk's dotfiles
+# dotfiles
 
-Just my Dot files, once upon a time a `Big Sur` update almost forced me to format my mac.
+My macOS dotfiles. Managed with [GNU Stow](https://www.gnu.org/software/stow/) — each top-level directory maps to symlinks in `~`.
 
-I vowed then and there that I would be able to bounce back quickly from my machine being run over, dropped or kidnapped.
-
-This is that vow, backed up to git :).
-
-Feel free to copy, let me know if you have any cool suggestions.
-
-## Credit
-
-[Mathias’s Bynes amazing dotfile repo](https://github.com/mathiasbynens/dotfiles)
-
-## Using Git and the bootstrap script
-
-You can clone the repository wherever you want. The bootstrap script will create symlinks to your home directory using [stow](https://www.gnu.org/software/stow/).
-This allows for easier experimentation and testing across systems.
-
-The bootstrap script will pull in the latest version and link the files to your home folder.
+## Quick start
 
 ```bash
-git clone https://github.com/omrisk/dotfiles.git && cd dotfiles && source bootstrap.sh
+git clone https://github.com/omrisk/dotfiles.git ~/dev/dotfiles
+cd ~/dev/dotfiles
+./bootstrap.sh
 ```
 
-To update, `cd` into your local `dotfiles` repository and then:
+That's it. The bootstrap script will:
+
+1. Install Homebrew (if missing)
+2. Install tools from the Brewfile
+3. Clone zsh plugins to `~/.zsh/plugins/`
+4. Symlink all config files to `~` via Stow
+5. Set Homebrew's zsh as the default shell
+
+To re-run after pulling changes:
 
 ```bash
-source bootstrap.sh
+cd ~/dev/dotfiles && ./bootstrap.sh -f
 ```
 
-## Git configurations
+## What gets linked
 
-Notice that the [.gitconfig](./.gitconfig) loads [.gitconfig_common](.gitconfig_common) that sets all aliases and git prefrences.
-It then loads [.gitconfig_personal](.gitconfig_personal) so set my user and email.
-The `includeif` allows to switch to my work user when I'm in a work directory.
-So my `.gitconfig_personal` looks something like this:
+| Directory    | Creates                        | Purpose                       |
+|--------------|--------------------------------|-------------------------------|
+| `zsh/`       | `~/.zshrc`, `~/.aliases`, `~/.p10k.zsh` | Shell config, aliases, prompt |
+| `ghostty/`   | `~/.config/ghostty/config`     | Terminal emulator             |
+| `git/`       | `~/.gitconfig`, `~/.gitconfig_common`, `~/.gitignore` | Git configuration |
+| `tmux/`      | `~/.tmux.conf`                 | Terminal multiplexer          |
+| `github-cli/`| `~/.config/gh/config.yml`      | GitHub CLI                    |
 
-```shell
+## How Stow works
+
+Stow creates symlinks from `~` pointing back to this repo. When you edit a file here, it's live immediately — no copying or syncing needed.
+
+```bash
+# Re-link everything after adding a new file:
+cd ~/dev/dotfiles
+stow --restow zsh ghostty git tmux github-cli -t "$HOME"
+```
+
+## Shell setup
+
+**No plugin manager.** Four plugins are cloned directly to `~/.zsh/plugins/`:
+
+- **zsh-autosuggestions** — suggests commands as you type
+- **zsh-syntax-highlighting** — colors valid/invalid commands
+- **zsh-z** — `z` to jump to frequently used directories
+- **powerlevel10k** — fast prompt with git status
+
+**Startup time:** ~500ms for the dotfiles config. Prints the load time (in ms) each time you open a terminal.
+
+**Theme:** Gruvbox Dark across Ghostty, tmux, and the prompt.
+
+## Git configuration
+
+The [`.gitconfig`](git/.gitconfig) includes separate configs by context:
+
+- `.gitconfig_common` — aliases and shared preferences (in this repo)
+- `.gitconfig_personal` — personal name/email (create this yourself)
+- `.gitconfig_work` — auto-loaded when working in `~/dev/` directories
+
+Example `~/.gitconfig_personal`:
+
+```
 [user]
- name = MY_USERNAME
- email = MY_PERSONAL_EMAIL
-
+  name = Your Name
+  email = your@email.com
 ```
 
-And my `.gitconfig_work` looks something like this:
+## Validation
 
-```shell
-[user]
- name = MY_WORK_USERNAME
- email = MY_WORK_EMAIL
-
-```
-
-## Specify the `$PATH`
-
-If `~/.path` exists, it will be sourced along with the other files.
-This will be done before any feature testing tasks place, such as [detecting which version of `ls` is being used](https://github.com/mathiasbynens/dotfiles/blob/aff769fd75225d8f2e481185a71d5e05b76002dc/.aliases#L21-L26)).
-
-Here’s an example `~/.path` file that adds `/usr/local/bin` to the `$PATH`:
+Run the test script to check that everything is set up correctly:
 
 ```bash
-export PATH="/usr/local/bin:$PATH"
+./test.sh
 ```
 
-## Terminal Setup (New!)
+This verifies plugins are cloned, symlinks exist, required tools are installed, and the shell starts without errors.
 
-For an optimized terminal experience with **Ghostty + tmux + zsh**, see the comprehensive guide:
+## Updating plugins
 
-**→ [Terminal Setup Guide](TERMINAL_SETUP.md)**
-
-Features:
-- Ultra-fast Ghostty terminal with native macOS integration
-- tmux with 50k line scrollback and session persistence
-- Automatic tmux startup with smart conditions
-- Optimized for agent development and long-running processes
-
-Quick start:
 ```bash
-brew install --cask ghostty
-stow --restow ghostty tmux zsh shell-shared bash -t "$HOME"
+for d in ~/.zsh/plugins/*/; do git -C "$d" pull; done
 ```
 
-## Sensible macOS defaults
+## macOS defaults
 
-When setting up a new Mac, you may want to set some sensible macOS defaults:
+Optional — sets sensible macOS system preferences:
 
 ```bash
 ./.macos
 ```
 
-## Homebrew
+## Archive
 
-### # Install Homebrew formulae
+The `archive/` directory contains old configs kept for reference (bash, Chef, Solarized themes, vim). These are not linked or loaded.
 
-When setting up a new Mac, you may want to install some common [Homebrew](https://brew.sh/) formulae (after installing Homebrew, of course):
+## Credit
 
-```bash
-./brew.sh
-```
-
-Some of the functionality of these dotfiles depends on formulae installed by `brew.sh`.
-If you don’t plan to run `brew.sh`, you should look carefully through the script and manually install any particularly important ones.
-A good example is Bash/Git completion: the dotfiles use a special version from Homebrew.
-
-### Store Homebrew formulae
-
-If you install `brew` packages manually and want to ensure your `.Brewfile` is kept up to date you can use the `./update-brew.sh` script.
-
-```bash
-./brew.sh -b
-```
-
-This will generate an updated `.Brewfile` and open a pull request to commit it.
-This is useful if you want to manually install packages (`brew install xxx`) without updating the `./brew.sh` script.
-
-## Quality and pre-commit
-
-I use [Pre-commit](https://pre-commit.com/) to managing and maintaining the git hooks defined in [`.pre-commit-config.yaml`](.pre-commit-config.yaml)
-
-- Leverage `pre-commit` to [install the Git hooks](https://pre-commit.com/#pre-commit-install)
-
-    ```shell
-    pre-commit install --install-hooks -t pre-commit -t commit-msg
-    ```
-
-- Check which files `pre-commit` works on by running
-
-    ```shell
-    pre-commit run list-files --hook-stage manual --verbose
-    ```
-
-- Run `pre-commit` on demand by running:
-
-    ```shell
-    pre-commit run -a
-    ```
-
-- Run a specific hook on all files (including unstaged):
-
-    ```shell
-    pre-commit run yamlfmt --all-files
-    ```
-
-## Intellij IDE settings
-
-Since Intellij has it's own settings backup and sync methods, I've backed them up to [this private repository](https://github.com/omrisk/intellij-settings).
-Linking this here for self reference.
+[Mathias Bynens's dotfiles](https://github.com/mathiasbynens/dotfiles)

@@ -1,24 +1,21 @@
-# Ghostty configuration optimized for tmux + zsh + agent development
+# Ghostty configuration — Gruvbox Dark
 
-# Theme - Solarized Dark (matches your tmux)
-theme = solarized-dark
+# Theme
+theme = Gruvbox Dark
 
-# Font configuration (for Powerlevel10k)
+# Font (required for Powerlevel10k icons)
 font-family = "MesloLGS NF"
 font-size = 14
 
-# Window appearance
-window-opacity = 0.95
+# Window
 window-padding-x = 8
 window-padding-y = 8
 window-decoration = true
-
-# Shell - keep default shell integration
-shell-integration = detect
-
-# Performance
-macos-non-native-fullscreen = false
 macos-titlebar-style = native
+window-theme = auto
+
+# Shell integration
+shell-integration = detect
 
 # Scrollback
 scrollback-limit = 10000
@@ -31,7 +28,7 @@ copy-on-select = clipboard
 cursor-style = block
 cursor-style-blink = true
 
-# Terminal behavior
+# Terminal
 term = xterm-256color
 confirm-close-surface = false
 
@@ -39,7 +36,7 @@ confirm-close-surface = false
 clipboard-read = allow
 clipboard-write = allow
 
-# Keybindings (macOS native style)
+# Keybindings
 keybind = super+c=copy_to_clipboard
 keybind = super+v=paste_from_clipboard
 keybind = super+n=new_window
@@ -50,13 +47,3 @@ keybind = super+shift+c=reload_config
 keybind = super+plus=increase_font_size:1
 keybind = super+minus=decrease_font_size:1
 keybind = super+0=reset_font_size
-
-# Tab bar
-window-theme = auto
-gtk-tabs-location = top
-
-# Link handling
-command+click = open
-
-# Advanced
-quick-terminal-animation-duration = 0.1

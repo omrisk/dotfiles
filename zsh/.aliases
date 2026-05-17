@@ -1,0 +1,41 @@
+# Navigation
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+
+# Shortcuts
+alias dw="cd ~/Documents/workspace"
+alias dl="cd ~/Downloads"
+alias dt="cd ~/Desktop"
+
+# ls
+if ls --color >/dev/null 2>&1; then
+  alias ls='command ls --color'
+else
+  alias ls='command ls -G'
+fi
+alias l='ls -lF'
+alias la='ls -lAF'
+alias lsd='ls -lF | grep --color=never "^d"'
+
+# grep
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+# macOS utilities
+alias flush="dscacheutil -flushcache && killall -HUP mDNSResponder"
+alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
+alias show="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
+alias hide="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
+alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+
+# Networking
+alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
+alias localip="ipconfig getifaddr en0"
+
+# Misc
+alias reload='exec $SHELL -l'
+alias path='echo -e ${PATH//:/\\n}'
+alias c="tr -d '\n' | pbcopy"
+alias sudo='sudo '

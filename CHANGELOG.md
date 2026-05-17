@@ -2,206 +2,65 @@
 
 All notable changes to this dotfiles repository.
 
-## [Unreleased]
-
-### Added
-- **Ghostty terminal configuration** - Ultra-fast, native macOS terminal setup
-  - Solarized Dark theme
-  - MesloLGS NF font configuration
-  - Native macOS keybindings (Cmd+C/V/N/W)
-  - 95% window opacity
-- **Comprehensive terminal documentation** - Complete guide in `TERMINAL_SETUP.md`
-- **Terminal readiness check** - Ensures tmux only starts when terminal is fully initialized
-- **TPM existence check** - tmux config now checks if plugin manager exists before loading
+## 2026-05-17 — Major overhaul
 
 ### Changed
-- **bootstrap.sh fixes:**
-  - Fixed inverted Homebrew installation logic
-  - Replaced bash-specific `read` flags with portable version for zsh compatibility
-- **zsh.sh improvements:**
-  - Fixed critical bug: now correctly sets zsh as default shell (was setting bash)
-  - Added BREW_PREFIX auto-detection for Apple Silicon and Intel Macs
-  - Added idempotency checks for all plugin installations
-  - Fixed typo: "defualt" → "default"
-- **tmux configuration optimizations:**
-  - Changed terminal type from `screen-256color` to `tmux-256color`
-  - Added true color support for modern terminals (Ghostty, iTerm2, etc.)
-  - Increased scrollback buffer from 2,000 to 50,000 lines
-  - Reduced escape time from 10ms to 0ms for instant vim responsiveness
-  - Added focus events for better Vim/Neovim integration
-  - Remove CLAUDECODE environment variable to allow Claude Code in tmux sessions
-- **zsh auto-start tmux:**
-  - Added intelligent tmux auto-start with proper conditions
-  - Skips SSH connections, VS Code terminals, and nested tmux
-  - Added terminal readiness check to prevent startup errors
+- **Replaced Oh-My-Zsh** with 4 direct plugin clones (no framework)
+  - zsh-autosuggestions, zsh-syntax-highlighting, zsh-z, powerlevel10k
+  - Plugins live in `~/.zsh/plugins/`, managed by bootstrap.sh
+- **Switched color theme** from Solarized Dark to Gruvbox Dark (Ghostty, tmux, prompt)
+- **Rewrote .zshrc** — 75 lines, down from 142 + 8 sourced files
+- **Rewrote bootstrap.sh** — installs Homebrew, tools, plugins, links via Stow, sets shell
+- **Updated tmux** — switched theme plugin from tmux-colors-solarized to tmux-gruvbox
+- **Cleaned up Ghostty config** — removed unused options, updated theme
+- **Optimized .forterrc** — cached pyenv init output, removed `n v16` call (saved ~5.5s)
 
-### Fixed
-- **Shell initialization errors:**
-  - Fixed node version manager (n) verbose output in `.forterrc`
-  - Fixed jenv plugin "already enabled" error in `.shell-shared`
-  - Removed duplicate pyenv initialization
-  - Fixed GPG tty setup producing "not a terminal" error in `.exports`
-  - Added stderr suppression for all sourced dotfiles
-- **tmux startup errors:**
-  - Fixed "open terminal failed: not a terminal" by adding terminal readiness check
-  - Added conditional TPM loading to prevent errors when plugin manager isn't installed
+### Added
+- `zsh/.aliases` — curated aliases (41 lines, down from 126)
+- `zsh/.p10k.zsh` — Powerlevel10k config with Gruvbox colors, two-line prompt
+- `test.sh` — validates plugins, symlinks, tools, and shell startup
+- Startup timer — prints load time in ms on every shell start
 
-### Technical Details
+### Removed
+- Oh-My-Zsh dependency (14 plugins → 4)
+- Vi-mode keybindings
+- Git shell aliases (use full commands)
+- jenv (no Java versions installed)
+- Redundant `z.sh` sourcing (was loaded twice: Homebrew + OMZ plugin)
+- `brew --prefix` subshell on every startup
+- `shell-shared` sourcing chain (8 files)
 
-#### bootstrap.sh (lines 22, 35-36)
-```bash
-# Before: if which -s brew &>/dev/null; then
-# After:  if ! which -s brew &>/dev/null; then
-
-# Before: read -r -p "prompt" -n 1
-# After:  echo -n "prompt" && read -r REPLY
-```
-
-#### zsh.sh (line 17, 3-11)
-```bash
-# Before: chsh -s "${BREW_PREFIX}/bin/bash"
-# After:  chsh -s "${BREW_PREFIX}/bin/zsh"
-
-# Added BREW_PREFIX detection for both architectures
-```
-
-#### .forterrc (line 58)
-```bash
-# Before: n v16
-# After:  n v16 > /dev/null 2>&1
-```
-
-#### .shell-shared (lines 8-10, 16-21, 30-34)
-```bash
-# Added stderr suppression to sourced files
-source "$file" 2>/dev/null
-
-# Fixed jenv plugin check
-if ! jenv plugins 2>/dev/null | grep -q "^export$"; then
-  jenv enable-plugin export &>/dev/null || true
-fi
-
-# Removed duplicate pyenv init
-```
-
-#### bash/.exports (line 34)
-```bash
-# Before: DEV_TTY=$(tty)
-# After:  DEV_TTY=$(tty 2>/dev/null)
-```
-
-#### tmux/.tmux.conf (lines 23-30, 54-59, 112)
-```bash
-# Changed terminal type
-set-option -g default-terminal "tmux-256color"
-
-# Added true color support
-set -g terminal-overrides ',xterm-256color:RGB'
-
-# Performance improvements
-set-option -g history-limit 50000
-set-option -sg escape-time 0
-
-# Conditional TPM loading
-if-shell "[ -f ~/.tmux/plugins/tpm/tpm ]" "run -b '~/.tmux/plugins/tpm/tpm'"
-```
-
-#### zsh/.zshrc (lines 9-15, 125-132, 134-138)
-```bash
-# Added interactive shell detection for verbose output
-if [[ $- == *i* ]]; then
-  source "$SHELL_SHARED"
-else
-  source "$SHELL_SHARED" > /dev/null 2>&1
-fi
-
-# Added terminal readiness check for tmux
-if [ -t 0 ] && [ -t 1 ]; then
-  tmux attach -t default 2>/dev/null || tmux new -s default
-fi
-
-# Suppress forterrc errors
-source /Users/omri_keefe/.forterrc 2>/dev/null
-```
-
----
-
-## Key Benefits
+### Archived
+- `bash/` — bash config files (`.bashrc`, `.bash_profile`, `.bash_prompt`, etc.)
+- `chef/` — Chef/knife helper functions
+- `init/` — Solarized terminal/iTerm themes
+- `vim/` — legacy vim config
+- `utils/` — `.wgetrc`, `.curlrc`, `.functions`, `.ssh_agent`
+- `shell-shared/` — old shared shell init
+- `zsh.sh`, `brew.sh` — old installer scripts
 
 ### Performance
-- **Faster startup**: 0ms tmux escape time
-- **Better scrollback**: 50,000 lines for debugging
-- **GPU acceleration**: Ghostty rendering
-
-### Reliability
-- **Clean startup**: No errors or warnings
-- **Session persistence**: Work survives restarts
-- **Cross-platform**: Works on Apple Silicon and Intel
-
-### Developer Experience
-- **Agent development ready**: Large scrollback for logs
-- **Vim-friendly**: Instant escape, proper focus events
-- **Native integration**: macOS-native terminal experience
+- Shell startup: **6.0s → 0.78s** (7.7x faster)
+- Config-only (excluding .forterrc): **0.5s**
+- P10k instant prompt shows in ~50ms
 
 ---
 
-## Migration Notes
+## 2025-02-22 — Ghostty terminal + startup fixes
 
-### From Previous Setup
+### Added
+- Ghostty terminal configuration with Solarized Dark theme
+- Terminal setup documentation (TERMINAL_SETUP.md)
+- TPM existence check in tmux config
 
-If upgrading from the old configuration:
+### Changed
+- Fixed bootstrap.sh Homebrew check logic
+- Fixed zsh.sh setting bash instead of zsh as default
+- Increased tmux scrollback to 50,000 lines
+- Changed tmux terminal type to tmux-256color
 
-1. **Backup existing sessions:**
-   ```bash
-   tmux list-sessions
-   # Note any important sessions
-   ```
-
-2. **Kill tmux server:**
-   ```bash
-   tmux kill-server
-   ```
-
-3. **Apply new configs:**
-   ```bash
-   cd ~/dev/dotfiles
-   stow --restow tmux zsh shell-shared bash -t "$HOME"
-   ```
-
-4. **Install Ghostty:**
-   ```bash
-   brew install --cask ghostty
-   stow --restow ghostty -t "$HOME"
-   ```
-
-5. **Restart terminal**
-
-### Breaking Changes
-
-None - all changes are backward compatible. The setup works with:
-- Default Terminal.app
-- iTerm2
-- Ghostty (recommended)
-- Any modern terminal with true color support
-
----
-
-## Testing
-
-All changes have been tested on:
-- macOS Sonoma 14.x
-- Apple Silicon (M3 Max)
-- zsh 5.9
-- tmux 3.x
-- Ghostty 1.2.3
-
----
-
-## Future Improvements
-
-Planned enhancements:
-- [ ] Add tmux session manager script
-- [ ] Create project-specific tmux layouts
-- [ ] Add more tmux plugins (conditional)
-- [ ] Document VS Code terminal integration
-- [ ] Add kitty configuration as alternative
+### Fixed
+- Node version manager verbose output
+- jenv plugin double-enable error
+- GPG tty "not a terminal" error
+- Duplicate pyenv initialization
