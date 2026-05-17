@@ -20,10 +20,21 @@ install_tools() {
   echo "Installing tools from Brewfile..."
   brew bundle --file=Homebrew/.Brewfile --no-lock 2>/dev/null || true
 
-  if ! command -v stow &>/dev/null; then
-    brew install stow
-  fi
+  for tool in stow fzf neovim; do
+    if ! command -v "${tool%neovim}${tool#neovim}" &>/dev/null 2>&1; then
+      brew install "$tool" 2>/dev/null || true
+    fi
+  done
   echo "Tools OK"
+}
+
+install_font() {
+  if ! ls ~/Library/Fonts/MesloLGS*NF* &>/dev/null 2>&1 && \
+     ! ls /Library/Fonts/MesloLGS*NF* &>/dev/null 2>&1; then
+    echo "Installing MesloLGS Nerd Font..."
+    brew install --cask font-meslo-lg-nerd-font 2>/dev/null || true
+  fi
+  echo "Font OK"
 }
 
 install_plugins() {
@@ -53,8 +64,36 @@ create_dirs() {
   mkdir -p "${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
 }
 
+setup_git_configs() {
+  if [[ ! -f "$HOME/.gitconfig_personal" ]]; then
+    echo "Creating ~/.gitconfig_personal template..."
+    cat > "$HOME/.gitconfig_personal" <<'GITEOF'
+[user]
+  name = YOUR NAME
+  email = YOUR EMAIL
+GITEOF
+    echo "  ⚠ Edit ~/.gitconfig_personal with your name and email"
+  fi
+
+  if [[ ! -f "$HOME/.gitconfig_work" ]]; then
+    cat > "$HOME/.gitconfig_work" <<'GITEOF'
+[user]
+  name = YOUR WORK NAME
+  email = YOUR WORK EMAIL
+GITEOF
+    echo "  ⚠ Edit ~/.gitconfig_work with your work name and email"
+  fi
+}
+
 link_dotfiles() {
   echo "Linking dotfiles with Stow..."
+  # Remove existing files that would conflict with symlinks
+  for f in .zshrc .aliases .p10k.zsh .gitconfig .gitconfig_common .gitignore .tmux.conf; do
+    if [[ -f "$HOME/$f" && ! -L "$HOME/$f" ]]; then
+      echo "  Backing up ~/$f to ~/${f}.bak"
+      mv "$HOME/$f" "$HOME/${f}.bak"
+    fi
+  done
   stow --restow zsh ghostty git tmux github-cli -t "$HOME"
   echo "Stow OK"
 }
@@ -83,9 +122,11 @@ set_shell() {
 boot() {
   check_and_install_homebrew
   install_tools
+  install_font
   install_plugins
   create_dirs
   link_dotfiles
+  setup_git_configs
   set_shell
   echo ""
   echo "Done! Restart your terminal or run: exec zsh"

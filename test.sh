@@ -23,18 +23,26 @@ for plugin in zsh-autosuggestions zsh-syntax-highlighting zsh-z powerlevel10k; d
 done
 
 echo "Checking symlinks..."
-check "~/.zshrc linked"       test -L "$HOME/.zshrc"
-check "~/.aliases linked"     test -L "$HOME/.aliases"
-check "~/.p10k.zsh linked"    test -L "$HOME/.p10k.zsh"
-check "~/.gitconfig linked"   test -L "$HOME/.gitconfig"
-check "~/.tmux.conf linked"   test -L "$HOME/.tmux.conf"
-check "ghostty config linked" test -f "$HOME/.config/ghostty/config"
+check "~/.zshrc linked"            test -L "$HOME/.zshrc"
+check "~/.aliases linked"          test -L "$HOME/.aliases"
+check "~/.p10k.zsh linked"         test -L "$HOME/.p10k.zsh"
+check "~/.gitconfig linked"        test -L "$HOME/.gitconfig"
+check "~/.gitconfig_common linked" test -L "$HOME/.gitconfig_common"
+check "~/.gitignore linked"        test -L "$HOME/.gitignore"
+check "~/.tmux.conf linked"        test -L "$HOME/.tmux.conf"
+check "ghostty config exists"      test -f "$HOME/.config/ghostty/config"
+check "gh config exists"           test -f "$HOME/.config/gh/config.yml"
 
 echo "Checking tools..."
+check "git available"   command -v git
 check "zsh available"   command -v zsh
 check "fzf available"   command -v fzf
 check "stow available"  command -v stow
 check "nvim available"  command -v nvim
+
+echo "Checking git config..."
+check "~/.gitconfig_personal exists" test -f "$HOME/.gitconfig_personal"
+check "~/.gitconfig_work exists"     test -f "$HOME/.gitconfig_work"
 
 echo "Checking shell startup..."
 STARTUP_OUTPUT=$(zsh -i -c "exit" 2>&1 || true)
@@ -42,10 +50,10 @@ if echo "$STARTUP_OUTPUT" | grep -qi "error"; then
   echo "  ✗ shell starts without errors"
   echo "    Errors found:"
   echo "$STARTUP_OUTPUT" | grep -i "error" | head -5 | sed 's/^/      /'
-  ((FAIL++))
+  FAIL=$((FAIL + 1))
 else
   echo "  ✓ shell starts without errors"
-  ((PASS++))
+  PASS=$((PASS + 1))
 fi
 
 STARTUP_TIME=$(TIMEFMT='%E'; { time zsh -i -c "exit"; } 2>&1 | tail -1)

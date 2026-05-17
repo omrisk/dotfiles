@@ -13,10 +13,19 @@ cd ~/dev/dotfiles
 That's it. The bootstrap script will:
 
 1. Install Homebrew (if missing)
-2. Install tools from the Brewfile
-3. Clone zsh plugins to `~/.zsh/plugins/`
-4. Symlink all config files to `~` via Stow
-5. Set Homebrew's zsh as the default shell
+2. Install tools from the Brewfile (including stow, fzf, neovim)
+3. Install MesloLGS Nerd Font (required for prompt icons)
+4. Clone zsh plugins to `~/.zsh/plugins/`
+5. Back up any existing config files and symlink via Stow
+6. Create `~/.gitconfig_personal` and `~/.gitconfig_work` templates
+7. Set Homebrew's zsh as the default shell
+
+After bootstrap, edit the git identity files it created:
+
+```bash
+nvim ~/.gitconfig_personal   # your name + personal email
+nvim ~/.gitconfig_work        # your name + work email
+```
 
 To re-run after pulling changes:
 
@@ -65,13 +74,7 @@ The [`.gitconfig`](git/.gitconfig) includes separate configs by context:
 - `.gitconfig_personal` — personal name/email (create this yourself)
 - `.gitconfig_work` — auto-loaded when working in `~/dev/` directories
 
-Example `~/.gitconfig_personal`:
-
-```
-[user]
-  name = Your Name
-  email = your@email.com
-```
+Both `~/.gitconfig_personal` and `~/.gitconfig_work` are created by `bootstrap.sh` with placeholder values. Edit them with your actual name and email. These files are not tracked by git.
 
 ## Validation
 

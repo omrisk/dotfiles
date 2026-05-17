@@ -35,11 +35,11 @@ pre-commit run -a
 - `tmux/` → `~/.tmux.conf`
 - `github-cli/` → `~/.config/gh/config.yml`
 
-**Not stowed**: `archive/`, `Homebrew/`, root-level files. Adding a new top-level directory does NOT auto-stow it — you must add it to the `stow` command in `bootstrap.sh` line 58.
+**Not stowed**: `archive/`, `Homebrew/`, root-level files. Adding a new top-level directory does NOT auto-stow it — you must add it to the `stow` command in both `bootstrap.sh` (in `link_dotfiles()`) and the stow command documented in this file and the README.
 
 **Shell loading order**: `.zshrc` sources plugins from `~/.zsh/plugins/` (not in this repo — cloned by bootstrap.sh), then `~/.aliases`, then `~/.forterrc` (work config, not in this repo), then `~/.p10k.zsh`.
 
-**Git config layering**: `.gitconfig` includes `.gitconfig_common` (shared settings, in this repo), `.gitconfig_personal` (user-created, not in repo), and conditionally `.gitconfig_work` for paths under `~/dev/`.
+**Git config layering**: `.gitconfig` includes `.gitconfig_common` (shared settings, in this repo), `.gitconfig_personal` (created by bootstrap.sh, not in repo), and conditionally `.gitconfig_work` for paths under `~/dev/` (also created by bootstrap.sh, not in repo). Both identity files contain placeholder values that the user must edit after setup.
 
 **Theme**: Gruvbox Dark is applied across Ghostty, tmux (`@tmux-gruvbox`), and Powerlevel10k (hex colors in `.p10k.zsh`). Keep all three in sync when changing themes.
 
