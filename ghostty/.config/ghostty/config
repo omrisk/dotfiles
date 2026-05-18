@@ -4,7 +4,7 @@
 theme = Gruvbox Dark
 
 # Font (required for Powerlevel10k icons)
-font-family = "MesloLGS NF"
+font-family = "MesloLGS Nerd Font"
 font-size = 14
 
 # Window

@@ -29,8 +29,8 @@ install_tools() {
 }
 
 install_font() {
-  if ! ls ~/Library/Fonts/MesloLGS*NF* &>/dev/null 2>&1 && \
-     ! ls /Library/Fonts/MesloLGS*NF* &>/dev/null 2>&1; then
+  if ! ls ~/Library/Fonts/MesloLGSNerdFont* &>/dev/null 2>&1 && \
+     ! ls /Library/Fonts/MesloLGSNerdFont* &>/dev/null 2>&1; then
     echo "Installing MesloLGS Nerd Font..."
     brew install --cask font-meslo-lg-nerd-font 2>/dev/null || true
   fi
